@@ -7,9 +7,10 @@
     "dev": "vite",
     "dev:3d": "vite --open /town3d.html",
     "dev:world": "vite --open /world.html",
-    "dev:vista": "vite --open /vista.html",
+    "dev:hill": "vite --open /hill.html",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "npm run build && firebase deploy --only hosting"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.5.2",

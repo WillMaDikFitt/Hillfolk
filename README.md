@@ -9,9 +9,9 @@ npm install
 npm run dev
 ```
 
-2D hillside site: `/`  
-**3D town prototype:** `npm run dev:3d` → `/town3d.html`  
-**Vista parallax draft:** `npm run dev:vista` → `/vista.html` (bg / mid / fg plates + mouse parallax + clouds)
+**Main site (vista):** `npm run dev` → `/`  
+**2D hillside (legacy):** `npm run dev:hill` → `/hill.html`  
+**3D town prototype:** `npm run dev:3d` → `/town3d.html`
 
 ## 3D prototype
 

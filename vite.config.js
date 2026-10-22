@@ -12,12 +12,13 @@ export default defineConfig({
     },
   },
   server: {
-    open: true,
+    open: '/',
   },
   build: {
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
+        hill: resolve(__dirname, 'hill.html'),
         town3d: resolve(__dirname, 'town3d.html'),
         vista: resolve(__dirname, 'vista.html'),
         world: resolve(__dirname, 'world.html'),

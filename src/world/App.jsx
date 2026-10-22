@@ -287,8 +287,8 @@ export default function App() {
 
       <nav className="corner-nav">
         <a href="/town3d.html">3D town</a>
-        <a href="/vista.html">Vista</a>
-        <a href="/">2D hill</a>
+        <a href="/">Home</a>
+        <a href="/hill.html">2D hill</a>
       </nav>
     </div>
   )

@@ -416,8 +416,8 @@ export default function App() {
       )}
 
       <nav className="corner-nav">
-        <a href="/vista.html">Vista draft</a>
-        <a href="/">2D hill</a>
+        <a href="/">Home</a>
+        <a href="/hill.html">2D hill</a>
       </nav>
     </div>
   )

@@ -2,12 +2,6 @@
   "hosting": {
     "public": "dist",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-    "rewrites": [
-      {
-        "source": "/",
-        "destination": "/vista.html"
-      }
-    ],
     "headers": [
       {
         "source": "**/*.@(js|css|png|jpg|jpeg|webp|svg|woff2)",
