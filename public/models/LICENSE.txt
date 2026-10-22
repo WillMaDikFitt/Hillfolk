@@ -1,0 +1,11 @@
+Hillfolk town exterior meshes in this folder are from Grab3D (https://grab3d.com),
+licensed CC0 1.0 (public domain). Free for personal and commercial use; no attribution required.
+
+cottage-house.glb   - About Us
+cafe.glb            - Hill Cafe
+office-building.glb - Our Services
+train-station.glb   - Contact Us
+church.glb          - distant landmark
+library.glb         - reserved
+
+Source: Cozy Buildings Kit on Grab3D.

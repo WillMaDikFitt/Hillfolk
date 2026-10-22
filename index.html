@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hillfolk — Explore the Hillside</title>
+    <meta name="description" content="Hillfolk Inc. — Creativity from the hills." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div class="sky" aria-hidden="true">
+      <div class="sky__wash"></div>
+    </div>
+
+    <header class="topbar" id="topbar">
+      <p class="topbar__hint" id="explore-hint">Glowing rings mark places you can open</p>
+      <a class="brand" href="/" aria-label="Hillfolk home">
+        <img class="brand__logo" src="/brand/logo.png?v=mark" alt="Hillfolk" width="1913" height="686" decoding="async" draggable="false" />
+      </a>
+    </header>
+
+    <main class="fresco" id="fresco" aria-label="Hillfolk hillside">
+      <div class="fresco__frame" id="frame">
+        <a class="fresco__mark" href="/" aria-label="Hillfolk home">
+          <img src="/brand/logo.png?v=mark" alt="" width="1913" height="686" decoding="async" draggable="false" />
+        </a>
+        <div class="fresco__stage" id="stage">
+          <div class="fresco__world" id="world">
+            <img
+              class="layer layer--bg"
+              src="/scene/hero-bg.png"
+              alt=""
+              width="4096"
+              height="1600"
+              decoding="async"
+              draggable="false"
+            />
+
+            <div class="layer layer--clouds" id="clouds" aria-hidden="true">
+              <img
+                class="cloud cloud--1"
+                src="/scene/clouds-1.png"
+                alt=""
+                width="4096"
+                height="1600"
+                draggable="false"
+              />
+              <img
+                class="cloud cloud--2"
+                src="/scene/clouds-2.png"
+                alt=""
+                width="4096"
+                height="1600"
+                draggable="false"
+              />
+            </div>
+
+            <svg class="layer layer--birds" id="birds" viewBox="0 0 4096 1600" aria-hidden="true"></svg>
+
+            <img
+              class="layer layer--fg"
+              src="/scene/hero-fg.png"
+              alt="Hillfolk hillside town — click a place to explore"
+              width="4096"
+              height="1600"
+              decoding="async"
+              draggable="false"
+            />
+
+            <svg
+              class="fresco__map"
+              id="fresco-map"
+              viewBox="0 0 4096 1600"
+              preserveAspectRatio="none"
+              role="group"
+              aria-label="Places on the hill"
+            >
+              <g id="map-hits"></g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </main>
+
+            <div class="veil" id="veil" aria-hidden="true"></div>
+
+<section class="page page--about-bleed" id="about" hidden aria-hidden="true">
+      <button class="gate__scrim" id="about-scrim" type="button" aria-label="Back to the hill"></button>
+      <div class="gate gate--bleed" role="dialog" aria-modal="true" aria-labelledby="about-title">
+        <header class="gate__bar gate__bar--overlay">
+          <button class="gate__back" id="about-back" type="button">Back to the hill</button>
+        </header>
+        <h1 class="visually-hidden" id="about-title">Hillfolk Inc. — About Us</h1>
+        <div class="about-bleed" id="about-scroll">
+          <div class="about-bleed__stage">
+            <img
+              class="about-bleed__bg"
+              src="/interiors/about-bg.jpg?v=2"
+              alt=""
+              width="1024"
+              height="409"
+              draggable="false"
+              aria-hidden="true"
+            />
+            <div class="about-bleed__clouds" aria-hidden="true">
+              <img src="/scene/clouds-1.png" alt="" draggable="false" />
+              <img src="/scene/clouds-2.png" alt="" draggable="false" />
+              <img src="/scene/clouds-1.png" alt="" draggable="false" />
+            </div>
+            <img
+              class="about-bleed__art"
+              src="/images/about-us.png?v=orig"
+              alt="Hillfolk Inc. studio — Creativity from the mountains. Our story, our team, looking out to the hills."
+              width="6000"
+              height="3375"
+              decoding="sync"
+              draggable="false"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="room" hidden aria-hidden="true">
+      <button class="gate__scrim" id="room-scrim" type="button" aria-label="Back to the hill"></button>
+      <div class="gate" role="dialog" aria-modal="true" aria-labelledby="room-title">
+        <header class="gate__bar">
+          <button class="gate__back" id="room-back" type="button">Back to the hill</button>
+          <a class="gate__logo" href="/" aria-label="Hillfolk home">
+            <img src="/brand/logo.png?v=mark" alt="" width="1913" height="686" />
+          </a>
+        </header>
+        <div class="gate__scroll" id="room-scroll">
+          <p class="gate__kicker" id="room-eyebrow"></p>
+          <h1 class="gate__title" id="room-title"></h1>
+          <p class="gate__lead" id="room-lead"></p>
+          <div class="gate__rule" aria-hidden="true"></div>
+          <div id="room-body"></div>
+        </div>
+      </div>
+    </section>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

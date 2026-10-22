@@ -1,0 +1,545 @@
+/* Inner pages — hillside vistas (match fresco vibe) */
+.page {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: var(--cream);
+  color: var(--ink);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.45s var(--ease),
+    visibility 0.45s;
+}
+
+.page.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.page__scroll {
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.vista-bar {
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.95rem clamp(1rem, 3.5vw, 2.25rem);
+  background: rgba(244, 241, 234, 0.78);
+  border-bottom: 1px solid rgba(26, 43, 37, 0.08);
+  backdrop-filter: blur(14px);
+}
+
+.vista-bar__back {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.vista-bar__back:hover {
+  color: var(--forest);
+}
+
+.vista-bar__logo img {
+  height: 1.5rem;
+  width: auto;
+}
+
+.vista {
+  min-height: calc(100% - 3.2rem);
+}
+
+.vista-kicker {
+  margin: 0 0 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.vista-kicker--light {
+  color: var(--gold-soft);
+}
+
+.vista-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  color: var(--forest);
+}
+
+.vista-title--light {
+  color: #f7f4ef;
+}
+
+.vista-title--quote {
+  max-width: 14ch;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+}
+
+.vista-rule {
+  display: block;
+  width: 2.75rem;
+  height: 1.5px;
+  margin: 1.1rem 0 1.25rem;
+  background: var(--gold);
+}
+
+.vista-headline {
+  margin: 0 0 1.25rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 3.5vw, 2.35rem);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--forest);
+  max-width: 20ch;
+}
+
+.vista-headline--light {
+  color: #f7f4ef;
+  max-width: 14ch;
+}
+
+.vista-headline--light em {
+  font-style: italic;
+  color: var(--gold-soft);
+}
+
+.vista-lede {
+  margin: 0 0 1rem;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: 36ch;
+}
+
+.vista-lede--gold {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.4vw, 1.4rem);
+  color: var(--gold-soft);
+  max-width: 28ch;
+}
+
+.vista-body {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 40ch;
+}
+
+.vista-body--light {
+  color: rgba(247, 244, 239, 0.78);
+}
+
+.vista-body strong {
+  color: var(--forest);
+  font-weight: 600;
+}
+
+.vista-aside {
+  margin: 1.25rem 0 0;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 32ch;
+}
+
+.vista-aside strong {
+  display: block;
+  margin-top: 0.3rem;
+  color: var(--forest);
+  font-weight: 600;
+}
+
+.vista-tag {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--gold-soft);
+}
+
+.vista-bullets {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.vista-bullets li {
+  margin: 0 0 0.4rem;
+  font-size: clamp(1.02rem, 2vw, 1.15rem);
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+/* Split hero — cream + photograph */
+.vista-split {
+  display: grid;
+  min-height: min(78vh, 42rem);
+  background: var(--paper);
+}
+
+@media (min-width: 860px) {
+  .vista-split {
+    grid-template-columns: minmax(18rem, 0.92fr) minmax(0, 1.15fr);
+  }
+}
+
+.vista-split__copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1.25rem, 4vw, 3rem);
+}
+
+.vista-split__art {
+  position: relative;
+  min-height: 18rem;
+  overflow: hidden;
+}
+
+.vista-split__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% center;
+}
+
+@media (min-width: 860px) {
+  .vista-split__art {
+    clip-path: polygon(6% 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+.vista-band {
+  padding: clamp(2.25rem, 5vw, 3.5rem) clamp(1.25rem, 4vw, 3rem);
+}
+
+.vista-band--paper {
+  background:
+    radial-gradient(ellipse 70% 60% at 100% 0%, rgba(185, 207, 220, 0.35), transparent 55%),
+    var(--paper);
+}
+
+.vista-band--moss {
+  background:
+    radial-gradient(ellipse 55% 70% at 90% 20%, rgba(176, 138, 85, 0.16), transparent 50%),
+    linear-gradient(160deg, #122019 0%, #1a3226 55%, #243d30 100%);
+  color: #f7f4ef;
+}
+
+.vista-band--moss .vista-lede {
+  color: #f7f4ef;
+}
+
+.vista-band--moss .vista-lede em {
+  color: var(--gold-soft);
+  font-style: italic;
+  font-family: var(--font-display);
+}
+
+.vista-band--moss .vista-body em {
+  color: var(--gold-soft);
+  font-style: italic;
+}
+
+.vista-pillars {
+  display: grid;
+  gap: 0.85rem 1.5rem;
+  margin: 0 0 1.5rem;
+  max-width: 52rem;
+}
+
+@media (min-width: 700px) {
+  .vista-pillars {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .vista-pillars p {
+    padding-right: 1rem;
+    border-right: 1px solid rgba(163, 134, 92, 0.35);
+  }
+
+  .vista-pillars p:last-child {
+    border-right: 0;
+  }
+}
+
+.vista-pillars p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  line-height: 1.35;
+  color: var(--forest);
+}
+
+.vista-why {
+  display: grid;
+  background: var(--cream);
+}
+
+@media (min-width: 860px) {
+  .vista-why {
+    grid-template-columns: minmax(0, 1.05fr) minmax(14rem, 0.85fr);
+    min-height: 28rem;
+  }
+}
+
+.vista-why__copy {
+  padding: clamp(2.25rem, 5vw, 3.5rem) clamp(1.25rem, 4vw, 3rem);
+}
+
+.vista-why__art {
+  min-height: 16rem;
+  overflow: hidden;
+}
+
+.vista-why__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vista-quote {
+  position: relative;
+  min-height: min(70vh, 34rem);
+  display: grid;
+  align-items: end;
+  overflow: hidden;
+}
+
+.vista-quote__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+}
+
+.vista-quote__veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    rgba(12, 22, 18, 0.88) 0%,
+    rgba(12, 22, 18, 0.55) 42%,
+    rgba(12, 22, 18, 0.15) 70%,
+    transparent 100%
+  );
+}
+
+.vista-quote blockquote {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  padding: clamp(2.5rem, 6vw, 4rem) clamp(1.25rem, 4vw, 3rem);
+  max-width: 18ch;
+  border: 0;
+}
+
+.vista-quote p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 4.2vw, 2.75rem);
+  line-height: 1.12;
+  color: #f7f4ef;
+}
+
+.vista-quote footer {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(196, 165, 116, 0.45);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--gold-soft);
+}
+
+.vista-band--services {
+  padding-bottom: clamp(3rem, 7vw, 4.5rem);
+}
+
+.vista-services {
+  display: grid;
+  gap: 0;
+  margin-top: 1.75rem;
+  border-top: 1px solid rgba(26, 43, 37, 0.12);
+}
+
+@media (min-width: 900px) {
+  .vista-services {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.vista-services article {
+  padding: 1.25rem 1rem 1.25rem 0;
+  border-bottom: 1px solid rgba(26, 43, 37, 0.1);
+}
+
+@media (min-width: 900px) {
+  .vista-services article {
+    padding: 1.35rem 1.15rem 0 0;
+    border-bottom: 0;
+    border-right: 1px solid rgba(26, 43, 37, 0.1);
+  }
+
+  .vista-services article:last-child {
+    border-right: 0;
+    padding-right: 0;
+  }
+}
+
+.vista-services h2 {
+  margin: 0 0 0.55rem;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--forest);
+}
+
+.vista-services p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.vista-cover {
+  position: relative;
+  min-height: calc(100vh - 3.4rem);
+  display: grid;
+  align-items: end;
+  overflow: hidden;
+}
+
+.vista-cover__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vista-cover__veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    rgba(244, 241, 234, 0.94) 0%,
+    rgba(244, 241, 234, 0.72) 38%,
+    rgba(244, 241, 234, 0.2) 68%,
+    transparent 100%
+  );
+}
+
+.vista-cover--contact .vista-cover__veil,
+.vista-cover--cafe .vista-cover__veil {
+  background: linear-gradient(
+    105deg,
+    rgba(12, 22, 18, 0.9) 0%,
+    rgba(12, 22, 18, 0.62) 40%,
+    rgba(12, 22, 18, 0.2) 72%,
+    transparent 100%
+  );
+}
+
+.vista-cover__copy {
+  position: relative;
+  z-index: 1;
+  padding: clamp(2.5rem, 7vw, 4.5rem) clamp(1.25rem, 4vw, 3rem);
+  max-width: 36rem;
+}
+
+.vista-contacts {
+  display: grid;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.vista-contacts a {
+  display: grid;
+  gap: 0.2rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.vista-contacts span {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+}
+
+.vista-contacts strong {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.6vw, 1.65rem);
+  font-weight: 400;
+  color: #f7f4ef;
+}
+
+.vista-contacts a:hover strong {
+  color: var(--gold-soft);
+}
+
+#room[data-layout="contact"] .vista-bar,
+#room[data-layout="cafe"] .vista-bar {
+  background: rgba(12, 22, 18, 0.55);
+  border-bottom-color: rgba(247, 244, 239, 0.08);
+}
+
+#room[data-layout="contact"] .vista-bar__back,
+#room[data-layout="cafe"] .vista-bar__back {
+  color: rgba(247, 244, 239, 0.75);
+}
+
+#room[data-layout="contact"] .vista-bar__back:hover,
+#room[data-layout="cafe"] .vista-bar__back:hover {
+  color: #f7f4ef;
+}
+
+#room[data-layout="contact"] .vista-bar__logo,
+#room[data-layout="cafe"] .vista-bar__logo {
+  filter: brightness(1.2);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .page.is-open .vista-split,
+  .page.is-open .vista-band,
+  .page.is-open .vista-why,
+  .page.is-open .vista-quote,
+  .page.is-open .vista-cover {
+    animation: vista-in 0.7s var(--ease) both;
+  }
+
+  .page.is-open .vista-band { animation-delay: 0.05s; }
+  .page.is-open .vista-why { animation-delay: 0.08s; }
+  .page.is-open .vista-quote { animation-delay: 0.1s; }
+}
+
+@keyframes vista-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

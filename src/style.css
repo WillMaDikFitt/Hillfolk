@@ -1,0 +1,982 @@
+:root {
+  --sky-top: #b9cfdc;
+  --sky-mid: #d7e5ed;
+  --sky-low: #e7efe4;
+  --cream: #f4f1ea;
+  --cream-deep: #ebe6dc;
+  --moss: #1a2b25;
+  --moss-mid: #2a5a32;
+  --gold: #a3865c;
+  --gold-soft: #c4a574;
+  --ink: #1a2421;
+  --ink-soft: #4a554e;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+  --paper: #f7f4ef;
+  --paper-deep: #ebe4d8;
+  --forest: #14261c;
+  --leaf: #3f6b45;
+  --mist: #d8e0d4;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  background: #dce8ef;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+body.is-locked {
+  overflow: hidden;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.eyebrow {
+  margin: 0 0 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.rule {
+  width: 2.5rem;
+  height: 1px;
+  margin: 0 0 1.5rem;
+  background: var(--gold);
+}
+
+.rule--light {
+  background: rgba(196, 165, 116, 0.55);
+}
+
+.rule--gold {
+  background: var(--gold-soft);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sky {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.sky__wash {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255, 255, 255, 0.55), transparent 55%),
+    linear-gradient(180deg, #c8dce8 0%, #dce8ef 40%, #e8efe6 75%, #d5e4c8 100%);
+}
+
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.15rem 1.5rem;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: 0.6s var(--ease);
+  pointer-events: none;
+}
+
+.topbar.is-on {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.topbar.is-hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  pointer-events: auto;
+}
+
+.brand__logo {
+  display: block;
+  height: clamp(1.55rem, 2.4vw, 2rem);
+  width: auto;
+}
+
+@media (min-width: 721px) {
+  .topbar .brand {
+    display: none;
+  }
+}
+
+.topbar__hint {
+  margin: 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  opacity: 0;
+  transition: opacity 0.45s;
+  text-shadow: 0 1px 8px rgba(255, 255, 255, 0.7);
+}
+
+.topbar__hint.is-on {
+  opacity: 0.75;
+}
+
+/* ——— Layered fresco: full-bleed bg → clouds → birds → fg ——— */
+.fresco {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  opacity: 0;
+  transition: opacity 0.9s var(--ease);
+  overflow: hidden;
+}
+
+.fresco__mark {
+  position: absolute;
+  z-index: 6;
+  right: clamp(6rem, 16vw, 13rem);
+  top: clamp(9rem, 28vh, 15rem);
+  width: clamp(9rem, 22vw, 17rem);
+  pointer-events: auto;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.7s var(--ease),
+    transform 0.7s var(--ease);
+}
+
+.fresco.is-ready .fresco__mark {
+  opacity: 1;
+  transform: none;
+}
+
+.fresco.is-leaving .fresco__mark {
+  opacity: 0;
+}
+
+.fresco__mark img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 2px 24px rgba(255, 255, 255, 0.45));
+}
+
+@media (max-width: 720px) {
+  .fresco__mark {
+    width: clamp(7rem, 34vw, 10rem);
+    top: auto;
+    bottom: clamp(2.5rem, 8vh, 4rem);
+    right: clamp(3.5rem, 14vw, 6rem);
+  }
+}
+
+.fresco.is-ready {
+  opacity: 1;
+}
+
+.fresco.is-leaving {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease);
+}
+
+.fresco__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.fresco__stage {
+  position: absolute;
+  inset: 0;
+}
+
+/* World sized to cover viewport while keeping art aspect — hotspots stay aligned */
+.fresco__world {
+  --art-w: 4096;
+  --art-h: 1600;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100%, calc(100dvh * var(--art-w) / var(--art-h)));
+  height: max(100%, calc(100vw * var(--art-h) / var(--art-w)));
+  aspect-ratio: 4096 / 1600;
+  transform: translate(-50%, -50%);
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  will-change: transform;
+}
+
+.layer--bg {
+  object-fit: fill;
+  z-index: 1;
+}
+
+.layer--clouds {
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.cloud {
+  position: absolute;
+  top: 0;
+  width: 48%;
+  height: 40%;
+  object-fit: contain;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* Cloud 1 — anchored extreme left, drifts left → right */
+.cloud--1 {
+  left: 0;
+  top: 1%;
+  object-position: left top;
+}
+
+/* Cloud 2 — anchored extreme right, drifts right → left */
+.cloud--2 {
+  right: 0;
+  left: auto;
+  top: 3%;
+  height: 36%;
+  object-position: right top;
+}
+
+.fresco.is-motion .cloud--1 {
+  animation: cloud-ltr 100s linear infinite;
+}
+
+.fresco.is-motion .cloud--2 {
+  animation: cloud-rtl 120s linear infinite;
+}
+
+@keyframes cloud-ltr {
+  from {
+    transform: translate3d(-15%, 0, 0);
+  }
+  to {
+    transform: translate3d(120%, 0, 0);
+  }
+}
+
+@keyframes cloud-rtl {
+  from {
+    transform: translate3d(15%, 0, 0);
+  }
+  to {
+    transform: translate3d(-120%, 0, 0);
+  }
+}
+
+.layer--birds {
+  z-index: 3;
+  overflow: visible;
+}
+
+.bird {
+  transform-origin: center;
+  animation: bird-fly var(--dur, 30s) linear var(--delay, 0s) infinite;
+}
+
+@keyframes bird-fly {
+  0% {
+    transform: translate(var(--x), var(--y)) scale(var(--sx, 1));
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(calc(var(--x) + 800px), calc(var(--y) + var(--drift-y)))
+      scale(var(--sx, 1));
+    opacity: 0.75;
+  }
+  92% {
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate(calc(var(--x) + 1600px), var(--y)) scale(var(--sx, 1));
+    opacity: 0;
+  }
+}
+
+.layer--fg {
+  object-fit: fill;
+  z-index: 4;
+}
+
+.fresco__map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  overflow: visible;
+  will-change: transform;
+}
+
+/* Circle hotspots — soft glow + dashed ring on hover */
+.spot__hit {
+  fill: transparent;
+  stroke: none;
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.spot-glow,
+.spot-ring {
+  pointer-events: none;
+  opacity: 0;
+  transform-origin: center;
+  transform-box: fill-box;
+  transition:
+    opacity 0.35s var(--ease),
+    transform 0.45s var(--ease);
+}
+
+.spot-glow {
+  transform: scale(0.72);
+}
+
+.spot-ring {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.78);
+  stroke-width: 8;
+  stroke-dasharray: 14 22;
+  transform: scale(0.86);
+}
+
+.fresco.is-hinting .spot .spot-glow {
+  opacity: 0.42;
+  transform: scale(1);
+}
+
+.fresco.is-hinting .spot .spot-ring {
+  opacity: 0.7;
+  transform: scale(1);
+  animation: spot-ring-pulse 2.4s var(--ease) infinite;
+}
+
+.spot.is-hot .spot-glow,
+.spot:focus-within .spot-glow {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.spot.is-hot .spot-ring,
+.spot:focus-within .spot-ring {
+  opacity: 1;
+  transform: scale(1);
+  animation: spot-ring-pulse 1.8s var(--ease) infinite;
+}
+
+@keyframes spot-ring-pulse {
+  0%,
+  100% {
+    stroke-opacity: 0.85;
+    transform: scale(1);
+  }
+  50% {
+    stroke-opacity: 0.45;
+    transform: scale(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spot.is-hot .spot-ring,
+  .spot:focus-within .spot-ring {
+    animation: none;
+  }
+}
+
+.layer--bg,
+.layer--fg,
+.layer--clouds,
+.layer--birds,
+.about-bleed__bg,
+.about-bleed__clouds,
+.about-bleed__art {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.veil {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  background: var(--cream);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s var(--ease);
+}
+
+.veil.is-on {
+  opacity: 1;
+}
+
+@media (max-width: 720px) {
+  .topbar__hint {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fresco.is-motion .cloud--1,
+  .fresco.is-motion .cloud--2,
+  .bird {
+    animation: none !important;
+  }
+}
+
+/* Inner pages — gate over the live hillside */
+.fresco.is-dimmed {
+  pointer-events: none;
+  transition: filter 0.7s var(--ease);
+  filter: brightness(0.88) saturate(0.9);
+}
+
+.page {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: clamp(0.75rem, 3vh, 1.5rem) clamp(0.75rem, 3vw, 1.5rem);
+  background: transparent;
+  color: var(--ink);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.55s var(--ease),
+    visibility 0.55s;
+}
+
+.page.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.gate__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0;
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 45%, rgba(244, 241, 234, 0.2), transparent 70%),
+    linear-gradient(180deg, rgba(185, 207, 220, 0.25) 0%, rgba(244, 241, 234, 0.45) 55%, rgba(244, 241, 234, 0.55) 100%);
+  transition: opacity 0.65s var(--ease);
+}
+
+.page.is-open .gate__scrim {
+  opacity: 1;
+}
+
+.gate {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 40rem);
+  max-height: min(86dvh, 44rem);
+  display: flex;
+  flex-direction: column;
+  background: #f7f4ef;
+  border: 0;
+  box-shadow: 0 20px 50px rgba(20, 38, 28, 0.18);
+  opacity: 0;
+  transform: scale(0.985);
+  transition:
+    opacity 0.55s var(--ease) 0.08s,
+    transform 0.7s var(--ease) 0.08s;
+}
+
+.page.is-open .gate {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.gate__bar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(26, 43, 37, 0.08);
+}
+
+.gate__back {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.gate__back:hover {
+  color: var(--forest);
+}
+
+.gate__logo img {
+  height: 1.4rem;
+  width: auto;
+}
+
+.gate__scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 1.5rem 1.5rem 2rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.gate__kicker {
+  margin: 0 0 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.gate__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.15rem, 4.5vw, 2.85rem);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: var(--forest);
+}
+
+.gate__lead {
+  margin: 0.6rem 0 0;
+  font-size: 1.05rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.gate__hero {
+  margin: 1.15rem 0 0;
+  padding: 0;
+  max-width: 42rem;
+}
+
+.gate__hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 0;
+  /* Exact source file — no CSS filters / image-rendering tricks that soften it */
+  image-rendering: auto;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Full-bleed About Us — art fills viewport; bg + cloud mist always visible */
+.page--about-bleed {
+  padding: 0;
+  place-items: stretch;
+}
+
+.page--about-bleed .gate__scrim {
+  background: #0a1218;
+}
+
+.gate--bleed {
+  width: 100%;
+  max-width: none;
+  max-height: none;
+  height: 100%;
+  background: #0a1218;
+  border: 0;
+  box-shadow: none;
+  transform: none;
+}
+
+.gate__bar--overlay {
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1.1rem 1.25rem;
+  background: transparent;
+}
+
+.gate__bar--overlay .gate__back {
+  background: color-mix(in srgb, #f7f4ef 92%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.about-bleed {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: #0a1218;
+}
+
+/* Cover-framed stage (1024×576) so sky hole, bg, and clouds stay aligned */
+.about-bleed__stage {
+  --about-ar: 1.777777778;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: max(100%, calc(100dvh * var(--about-ar)));
+  height: max(100dvh, calc(100vw * 576 / 1024));
+  transform: translateX(-50%);
+  overflow: hidden;
+}
+
+/* Mountain vista — behind the transparent window sky */
+.about-bleed__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+  transform: scale(1.08);
+  transform-origin: center center;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+}
+
+/* Clouds sit in the window sky hole (between bg and art) */
+.about-bleed__clouds {
+  position: absolute;
+  left: 25%;
+  width: 55%;
+  top: 15%;
+  height: 26%;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 1;
+  mix-blend-mode: normal;
+}
+
+.about-bleed__clouds img {
+  position: absolute;
+  top: 8%;
+  height: auto;
+  max-height: 85%;
+  width: auto;
+  opacity: 0.95;
+  animation: about-cloud-drift 48s linear infinite;
+}
+
+.about-bleed__clouds img:nth-child(1) {
+  left: -8%;
+  width: 48%;
+  animation-duration: 56s;
+}
+
+.about-bleed__clouds img:nth-child(2) {
+  left: 26%;
+  width: 42%;
+  top: 22%;
+  opacity: 0.8;
+  animation-duration: 42s;
+  animation-direction: reverse;
+}
+
+.about-bleed__clouds img:nth-child(3) {
+  left: 58%;
+  width: 50%;
+  top: 4%;
+  animation-duration: 64s;
+}
+
+@keyframes about-cloud-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(18%, 0, 0);
+  }
+}
+
+/* Studio PNG — fills stage; transparent sky lets bg + clouds read through */
+.about-bleed__art {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 108%;
+  object-fit: cover;
+  object-position: center top;
+  transform: translateY(-5%);
+  border: 0;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  image-rendering: auto;
+  -ms-interpolation-mode: bicubic;
+}
+
+.gate__rule {
+  height: 1px;
+  margin: 1.35rem 0;
+  background: rgba(163, 134, 92, 0.35);
+  max-width: 3rem;
+}
+
+.gate__h {
+  margin: 0 0 0.55rem;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--forest);
+}
+
+.gate__list {
+  margin: 0 0 0.85rem;
+  padding: 0;
+  list-style: none;
+}
+
+.gate__list li {
+  margin: 0 0 0.3rem;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.gate__p {
+  margin: 0 0 1.15rem;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 38ch;
+}
+
+.gate__p strong {
+  color: var(--forest);
+  font-weight: 600;
+}
+
+.gate__p em {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--forest);
+}
+
+.gate__meta {
+  margin: 0 0 0.6rem;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--forest);
+}
+
+.gate__feature {
+  margin: 0.15rem 0 1.35rem;
+  padding: 0 0 0 1rem;
+  border-left: 2px solid var(--gold-soft);
+  background: transparent;
+  color: inherit;
+}
+
+.gate__feature-title {
+  margin: 0 0 0.45rem;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  line-height: 1.15;
+  color: var(--forest);
+}
+
+.gate__feature-title span {
+  color: var(--gold);
+}
+
+.gate__feature .gate__p {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+.gate__pull {
+  margin: 0 0 0.7rem;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-style: italic;
+  line-height: 1.25;
+  color: var(--forest);
+  max-width: 22ch;
+}
+
+.gate__end {
+  margin: 1.25rem 0 0;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  line-height: 1.25;
+  color: var(--forest);
+  max-width: 22ch;
+}
+
+.gate__tag {
+  margin: 0.5rem 0 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--gold);
+}
+
+.gate__services {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gate__services li {
+  padding: 0.85rem 0;
+  border-bottom: 1px solid rgba(26, 43, 37, 0.08);
+}
+
+.gate__services li:first-child {
+  padding-top: 0;
+}
+
+.gate__services li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.gate__services h2 {
+  margin: 0 0 0.25rem;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--forest);
+}
+
+.gate__services p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+
+.gate__contacts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gate__contacts li {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0 0 1rem;
+}
+
+.gate__contacts span {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.gate__contacts a {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--forest);
+  text-decoration: none;
+}
+
+.gate__contacts a:hover {
+  color: var(--leaf);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page,
+  .gate,
+  .gate__scrim,
+  .fresco.is-dimmed {
+    transition: none !important;
+  }
+
+  .gate {
+    transform: none;
+  }
+
+  .about-bleed__clouds img {
+    animation: none;
+  }
+}

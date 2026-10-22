@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCHEME ENGINE - Concave Panoramic Carousel</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 30%, #301010 0%, #120404 55%, #000000 100%);
+      color: #ffffff;
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Header Navigation */
+    header {
+      width: 100%;
+      padding: 30px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 20;
+    }
+
+    .nav-left, .nav-right {
+      display: flex;
+      gap: 50px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+    }
+
+    .nav-left a, .nav-right a {
+      color: #ffffff;
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+
+    .nav-left a:hover, .nav-right a:hover {
+      opacity: 0.6;
+    }
+
+    .logo {
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 0.8;
+      text-align: center;
+      text-transform: uppercase;
+      font-family: Arial Black, 'Montserrat', sans-serif;
+    }
+
+    .logo span {
+      display: block;
+      font-size: 9px;
+      letter-spacing: 4px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    /* Category Filter */
+    .filter-bar {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      margin-top: 5px;
+      z-index: 20;
+    }
+
+    .filter-bar button {
+      background: none;
+      border: none;
+      color: #888888;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .filter-bar button.active,
+    .filter-bar button:hover {
+      color: #ffffff;
+    }
+
+    /* 3D Cylindrical Arena Stage */
+    .carousel-container {
+      width: 100%;
+      height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      /* Strong perspective to create the inward wrap/arc */
+      perspective: 1100px;
+      perspective-origin: 50% 50%;
+      overflow: hidden;
+    }
+
+    .carousel-track {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Individual Card with Curved Masking */
+    .card {
+      position: absolute;
+      width: 580px;
+      height: 390px;
+      cursor: pointer;
+      transform-style: preserve-3d;
+      transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.7s ease, filter 0.7s ease;
+      
+      /* Curved arc shape at top and bottom to match wide-angle camera distortion */
+      clip-path: ellipse(115% 100% at 50% 0%);
+    }
+
+    .card-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      /* Mirror the clip path inside for clean borders */
+      clip-path: ellipse(115% 100% at 50% 0%);
+      background: #000;
+    }
+
+    .card img, .card video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+
+    /* Dark vignette edge overlay */
+    .card-inner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.5) 100%);
+      pointer-events: none;
+    }
+
+    /* Arc Placement Math */
+    .card.active {
+      transform: translateX(0) translateZ(80px) rotateY(0deg) scale(1.05);
+      opacity: 1;
+      filter: brightness(1);
+      z-index: 10;
+    }
+
+    .card.prev {
+      /* Pushed outward and angled TOWARD the viewer to form the concave arc */
+      transform: translateX(-108%) translateZ(-90px) rotateY(28deg) scale(0.92);
+      opacity: 0.85;
+      filter: brightness(0.7);
+      z-index: 5;
+    }
+
+    .card.next {
+      /* Pushed outward and angled TOWARD the viewer to form the concave arc */
+      transform: translateX(108%) translateZ(-90px) rotateY(-28deg) scale(0.92);
+      opacity: 0.85;
+      filter: brightness(0.7);
+      z-index: 5;
+    }
+
+    .card.hidden-left {
+      transform: translateX(-210%) translateZ(-300px) rotateY(45deg) scale(0.7);
+      opacity: 0;
+      z-index: 1;
+    }
+
+    .card.hidden-right {
+      transform: translateX(210%) translateZ(-300px) rotateY(-45deg) scale(0.7);
+      opacity: 0;
+      z-index: 1;
+    }
+
+    /* Project Information Footer */
+    .video-info {
+      text-align: center;
+      margin-bottom: 35px;
+      z-index: 20;
+    }
+
+    .director {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #e0e0e0;
+      margin-bottom: 10px;
+    }
+
+    .title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 2px;
+    }
+
+    .subtitle {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      letter-spacing: 2px;
+      color: #d0d0d0;
+      text-transform: uppercase;
+    }
+
+    /* Click triggers on left/right edges */
+    .click-zone {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 25%;
+      z-index: 30;
+      cursor: pointer;
+    }
+    .click-zone.left { left: 0; }
+    .click-zone.right { right: 0; }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header>
+    <div class="nav-left">
+      <a href="#">Directors</a>
+      <a href="#">Work</a>
+    </div>
+    <div class="logo">
+      Scheme
+      <span>ENGINE</span>
+    </div>
+    <div class="nav-right">
+      <a href="#">Film & TV</a>
+      <a href="#">Contact</a>
+    </div>
+  </header>
+
+  <!-- Category Filter -->
+  <div class="filter-bar">
+    <button class="active">All</button>
+    <button>Commercial & Branded</button>
+    <button>Music</button>
+    <button>Live</button>
+  </div>
+
+  <!-- Panoramic Curved Carousel -->
+  <div class="carousel-container">
+    <div class="click-zone left" id="prevZone"></div>
+    <div class="click-zone right" id="nextZone"></div>
+
+    <div class="carousel-track" id="track">
+      <!-- Card 0 -->
+      <div class="card" data-director="DIRECTOR NAME" data-title="PROJECT ONE" data-subtitle="FEATURE FILM">
+        <div class="card-inner">
+          <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=1200&q=80" alt="Work 1">
+        </div>
+      </div>
+
+      <!-- Card 1 (Active center) -->
+      <div class="card" data-director="ANTHONY JAMARI THOMAS" data-title="MIKE'S HOT HONEY" data-subtitle="THE DRIZZLER">
+        <div class="card-inner">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1200&q=80" alt="Work 2">
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card" data-director="MARCUS AURELIUS" data-title="LIGHT & SHADOW" data-subtitle="COMMERCIAL">
+        <div class="card-inner">
+          <img src="https://images.unsplash.com/photo-1518173946687-a4c8a383392e?auto=format&fit=crop&w=1200&q=80" alt="Work 3">
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card" data-director="SARAH J. CHEN" data-title="URBAN STORIES" data-subtitle="DOCUMENTARY">
+        <div class="card-inner">
+          <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80" alt="Work 4">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Active Project Info -->
+  <div class="video-info">
+    <div class="director" id="director">ANTHONY JAMARI THOMAS</div>
+    <div class="title" id="title">MIKE'S HOT HONEY</div>
+    <div class="subtitle" id="subtitle">THE DRIZZLER</div>
+  </div>
+
+  <script>
+    const cards = document.querySelectorAll('.card');
+    const prevZone = document.getElementById('prevZone');
+    const nextZone = document.getElementById('nextZone');
+    
+    const directorEl = document.getElementById('director');
+    const titleEl = document.getElementById('title');
+    const subtitleEl = document.getElementById('subtitle');
+
+    let currentIndex = 1;
+
+    function updateCarousel() {
+      cards.forEach((card, index) => {
+        card.className = 'card';
+
+        if (index === currentIndex) {
+          card.classList.add('active');
+          directorEl.textContent = card.dataset.director;
+          titleEl.textContent = card.dataset.title;
+          subtitleEl.textContent = card.dataset.subtitle;
+        } else if (index === (currentIndex - 1 + cards.length) % cards.length) {
+          card.classList.add('prev');
+        } else if (index === (currentIndex + 1) % cards.length) {
+          card.classList.add('next');
+        } else if (index < currentIndex) {
+          card.classList.add('hidden-left');
+        } else {
+          card.classList.add('hidden-right');
+        }
+      });
+    }
+
+    prevZone.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+      updateCarousel();
+    });
+
+    nextZone.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % cards.length;
+      updateCarousel();
+    });
+
+    cards.forEach((card, index) => {
+      card.addEventListener('click', () => {
+        currentIndex = index;
+        updateCarousel();
+      });
+    });
+
+    updateCarousel();
+  </script>
+</body>
+</html>

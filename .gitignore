@@ -1,0 +1,14 @@
+node_modules
+dist
+.DS_Store
+*.local
+.firebase
+firebase-debug.log
+firestore-debug.log
+
+# Oversized / local source dumps (GitHub 100MB limit; not needed for Vite build)
+visual-design.png
+public/scene/visual-design.png
+Hillfolk_Inc_10_Slide_Deck.pdf
+/*.png
+/*.pdf
