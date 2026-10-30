@@ -36,6 +36,16 @@
           <div class="layer layer--clouds" id="clouds" aria-hidden="true"></div>
 
           <img
+            class="layer layer--sky"
+            id="sky"
+            src="/scene/home-sky.jpg?v=home1"
+            alt=""
+            width="2000"
+            height="791"
+            draggable="false"
+          />
+
+          <img
             class="layer layer--bg"
             id="bg"
             src="/scene/v2-bg.png?v=ref"
@@ -46,7 +56,13 @@
           />
 
           <div class="layer layer--mid" id="mid">
-            <img src="/scene/v2-mid.png?v=ref" alt="" width="1670" height="942" draggable="false" />
+            <img
+              src="/scene/home-mid.png?v=home1"
+              alt=""
+              width="3344"
+              height="1882"
+              draggable="false"
+            />
             <svg class="hits" viewBox="0 0 1670 942" preserveAspectRatio="none">
               <g id="hits-mid"></g>
             </svg>
@@ -54,12 +70,12 @@
 
           <div class="layer layer--fg" id="fg">
             <img
-              src="/scene/v2-fg.png?v=ref"
+              src="/scene/home-fg.png?v=home1"
               alt="Hillfolk vista"
-              width="1670"
-              height="942"
-              draggable="false"
-            />
+              width="3334"
+              height="1886"
+                draggable="false"
+              />
             <svg class="hits" viewBox="0 0 1670 942" preserveAspectRatio="none">
               <g id="hits-fg"></g>
             </svg>
@@ -85,41 +101,73 @@
 
     <section class="room" id="about-room" hidden aria-hidden="true">
       <button class="room__back" id="about-back" type="button">Back to the hill</button>
-      <p class="room__hint" id="about-hint">Small tags mark places you can open</p>
+      <p class="room__hint" id="about-hint">Hover a teammate to meet them</p>
       <nav class="trail-stamps" id="about-trail" aria-label="About stops" hidden></nav>
 
       <div class="room__frame" id="about-frame">
         <div class="room__stage room__stage--about" id="about-stage">
           <img
-            class="room__art room__art--bg"
+            class="room__art room__art--bg room__art--sky"
             id="about-bg"
-            src="/interiors/about-bg.jpg?v=2"
-            alt=""
-            width="1024"
-            height="409"
-            draggable="false"
-          />
+            src="/scene/home-sky.jpg?v=home1"
+                alt=""
+            width="2000"
+            height="791"
+                draggable="false"
+              />
           <div class="room__skyclouds" id="about-clouds" aria-hidden="true"></div>
           <div class="about-plate">
             <img
               class="room__art room__art--fg"
               id="about-fg"
-              src="/interiors/about-us.png?v=orig"
+              src="/interiors/about-us.png?v=oct27"
               alt="Hillfolk Inc. studio — Creativity from the mountains"
-              width="6000"
-              height="3375"
+              width="3536"
+              height="1780"
               draggable="false"
               decoding="async"
             />
+            <div class="room-wall room-wall--about" aria-label="About us">
+              <div class="room-wall__copy">
+                <p class="room-wall__eyebrow">About us</p>
+                <h2 class="room-wall__title">
+                  Fresh Perspective.<br />
+                  Exceptional creativity.<br />
+                  Real impact
+                </h2>
+                <p class="room-wall__body">
+                  We build stories that shape perception, spark connection and move brands forward.
+                </p>
+              </div>
+            </div>
             <svg
               class="room__hits"
               id="about-hits"
               viewBox="0 0 1024 576"
               preserveAspectRatio="none"
-              aria-label="Places in the studio"
+              aria-label="People in the studio"
             >
               <g id="about-hit-group"></g>
             </svg>
+            <div class="person-tip" id="about-person-tip" hidden aria-hidden="true">
+              <div class="person-tip__avatar" aria-hidden="true">
+                <svg class="person-tip__icon" viewBox="0 0 40 40" width="40" height="40" fill="none">
+                  <circle cx="20" cy="20" r="20" fill="currentColor" opacity="0.12" />
+                  <circle cx="20" cy="15" r="6.5" fill="currentColor" />
+                  <path
+                    d="M8 32.5c1.8-6.2 6.4-9 12-9s10.2 2.8 12 9"
+                    stroke="currentColor"
+                    stroke-width="2.4"
+                    stroke-linecap="round"
+                  />
+                </svg>
+                <span class="person-tip__initials"></span>
+              </div>
+              <div class="person-tip__copy">
+                <strong class="person-tip__name"></strong>
+                <span class="person-tip__role"></span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -250,7 +298,7 @@
 
     <section class="room" id="whatwedo-room" hidden aria-hidden="true">
       <button class="room__back" id="whatwedo-back" type="button">Back to the hill</button>
-      <p class="room__hint" id="whatwedo-hint">Tags mark each line on the poster</p>
+      <p class="room__hint" id="whatwedo-hint">What we do</p>
       <nav class="trail-stamps" id="whatwedo-trail" aria-label="What we do stops" hidden></nav>
       <div class="room__frame">
         <div class="room__stage room__stage--contain">
@@ -353,26 +401,26 @@
 
     <section class="room" id="services-room" hidden aria-hidden="true">
       <button class="room__back" id="services-back" type="button">Back to the hill</button>
-      <p class="room__hint" id="services-hint">Tags mark each service card</p>
+      <p class="room__hint" id="services-hint">Hover a service to peek inside</p>
       <nav class="trail-stamps" id="services-trail" aria-label="Services stops" hidden></nav>
       <div class="room__frame">
         <div class="room__stage room__stage--contain">
           <img
-            class="room__art room__art--bg"
-            src="/interiors/about-bg.jpg?v=2"
+            class="room__art room__art--bg room__art--sky"
+            src="/scene/home-sky.jpg?v=home1"
             alt=""
-            width="1024"
-            height="409"
+            width="2000"
+            height="791"
             draggable="false"
           />
           <div class="room__skyclouds room__skyclouds--services" id="services-clouds" aria-hidden="true"></div>
           <div class="contain-plate" id="services-plate">
             <img
               class="room__art room__art--fg"
-              src="/interiors/services-fg.png?v=14"
+              src="/interiors/services-fg.png?v=oct27"
               alt="Hillfolk — Our services"
-              width="6000"
-              height="3375"
+              width="3540"
+              height="1778"
               draggable="false"
               decoding="async"
             />
@@ -381,10 +429,82 @@
               id="services-hits"
               viewBox="0 0 1024 576"
               preserveAspectRatio="none"
-              aria-label="Our services"
+              aria-hidden="true"
             >
               <g id="services-hit-group"></g>
             </svg>
+            <div class="services-clicks" aria-label="Preview a service">
+              <div class="services-hover" data-section="strategy">
+                <button class="services-click" type="button">HOVER ME</button>
+                <div class="services-tip" hidden>
+                  <div class="services-tip__samples">
+                    <img src="/deck/about-why.jpg" alt="" width="320" height="240" loading="lazy" decoding="async" />
+                    <img src="/deck/slide-02.jpg" alt="" width="320" height="240" loading="lazy" decoding="async" />
+                  </div>
+                  <div class="services-tip__meta">
+                    <span class="services-tip__index">01 / Sample</span>
+                    <p class="services-tip__label">Brand Strategy</p>
+                    <p class="services-tip__blurb">Identity. Naming. Positioning. Find the voice before you speak.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="services-hover" data-section="design">
+                <button class="services-click" type="button">HOVER ME</button>
+                <div class="services-tip" hidden>
+                  <div class="services-tip__samples">
+                    <img src="/deck/slide-03.jpg" alt="" width="320" height="240" loading="lazy" decoding="async" />
+                    <img src="/deck/slide-04.jpg" alt="" width="320" height="240" loading="lazy" decoding="async" />
+                  </div>
+                  <div class="services-tip__meta">
+                    <span class="services-tip__index">02 / Sample</span>
+                    <p class="services-tip__label">Digital Design</p>
+                    <p class="services-tip__blurb">Screens and systems that look considered and work in the hand.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="services-hover" data-section="story">
+                <button class="services-click" type="button">HOVER ME</button>
+                <div class="services-tip" hidden>
+                  <div class="services-tip__samples">
+                    <img src="/deck/slide-05.jpg" alt="" width="320" height="240" loading="lazy" decoding="async" />
+                    <img src="/deck/cafe-hills.jpg" alt="" width="320" height="240" loading="lazy" decoding="async" />
+                  </div>
+                  <div class="services-tip__meta">
+                    <span class="services-tip__index">03 / Sample</span>
+                    <p class="services-tip__label">Content &amp; Storytelling</p>
+                    <p class="services-tip__blurb">Film, photography, copy and social — made with a point of view.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="services-hover" data-section="campaign">
+                <button class="services-click" type="button">HOVER ME</button>
+                <div class="services-tip" hidden>
+                  <div class="services-tip__samples">
+                    <img src="/deck/slide-09.jpg" alt="" width="320" height="240" loading="lazy" decoding="async" />
+                    <img src="/deck/slide-06.jpg" alt="" width="320" height="240" loading="lazy" decoding="async" />
+                  </div>
+                  <div class="services-tip__meta">
+                    <span class="services-tip__index">04 / Sample</span>
+                    <p class="services-tip__label">Campaign Creative</p>
+                    <p class="services-tip__blurb">Sharp ideas that travel — from the line to the look.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="services-hover" data-section="tech">
+                <button class="services-click" type="button">HOVER ME</button>
+                <div class="services-tip" hidden>
+                  <div class="services-tip__samples">
+                    <img src="/deck/slide-07.jpg" alt="" width="320" height="240" loading="lazy" decoding="async" />
+                    <img src="/deck/slide-10.jpg" alt="" width="320" height="240" loading="lazy" decoding="async" />
+                  </div>
+                  <div class="services-tip__meta">
+                    <span class="services-tip__index">05 / Sample</span>
+                    <p class="services-tip__label">Tech &amp; Innovation</p>
+                    <p class="services-tip__blurb">Web, SEO, performance and the craft behind the click.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -475,29 +595,60 @@
 
     <section class="room" id="contact-room" hidden aria-hidden="true">
       <button class="room__back" id="contact-back" type="button">Back to the hill</button>
-      <p class="room__hint" id="contact-hint">Tags mark the board and the guestbook</p>
+      <p class="room__hint" id="contact-hint">Leave a note on the wall</p>
       <nav class="trail-stamps" id="contact-trail" aria-label="Contact stops" hidden></nav>
       <div class="room__frame">
         <div class="room__stage room__stage--contain">
+          <img
+            class="room__art room__art--bg room__art--sky"
+            src="/scene/home-sky.jpg?v=home1"
+            alt=""
+            width="2000"
+            height="791"
+            draggable="false"
+          />
+          <div class="room__skyclouds room__skyclouds--contact" id="contact-clouds" aria-hidden="true"></div>
           <div class="contain-plate" id="contact-plate">
             <img
               class="room__art room__art--fg"
-              src="/interiors/contact-fg.jpg?v=169"
+              src="/interiors/contact-fg.png?v=oct27"
               alt="Hillfolk Post Office"
-              width="6000"
-              height="3375"
+              width="3548"
+              height="1774"
               draggable="false"
               decoding="async"
             />
-            <svg
-              class="room__hits"
-              id="contact-hits"
-              viewBox="0 0 1024 576"
-              preserveAspectRatio="none"
-              aria-label="Places in the post office"
-            >
-              <g id="contact-hit-group"></g>
-            </svg>
+            <div class="room-wall room-wall--contact" id="contact-wall" aria-label="Contact us">
+              <div class="room-wall__copy">
+                <p class="room-wall__eyebrow">Contact us</p>
+                <h2 class="room-wall__title">
+                  Every story begins somewhere.<br />
+                  Make your next chapter count.
+                </h2>
+                <button class="wall-lead" id="wall-lead-btn" type="button">
+                  <span class="wall-lead__stamp" aria-hidden="true">POST</span>
+                  <span class="wall-lead__label">Let’s connect</span>
+                </button>
+              </div>
+              <form class="wall-lead-form" id="wall-lead-form" hidden>
+                <p class="wall-lead-form__title">A note for Hillfolk</p>
+                <label class="wall-lead-form__field">
+                  <span>Name</span>
+                  <input name="name" type="text" autocomplete="name" required placeholder="Your name" />
+                </label>
+                <label class="wall-lead-form__field">
+                  <span>Email</span>
+                  <input name="email" type="email" autocomplete="email" required placeholder="you@brand.com" />
+                </label>
+                <label class="wall-lead-form__field">
+                  <span>Message</span>
+                  <textarea name="message" required placeholder="What’s the next chapter?"></textarea>
+                </label>
+                <button class="wall-lead-form__send" type="submit">Send from the hills</button>
+                <p class="wall-lead-form__note" id="wall-lead-note" hidden>Thanks — we’ll write back.</p>
+                <button class="wall-lead-form__close" type="button" id="wall-lead-close">Close</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>

@@ -144,154 +144,65 @@ const spots = [
     id: 'about',
     label: 'About Us',
     layer: 'mid',
-    ...circ(512, 88, 72),
+    ...circ(512, 78, 72),
   },
   {
     id: 'services',
     label: 'Our Services',
     layer: 'mid',
-    ...circ(349, 187, 70),
+    ...circ(375, 192, 70),
   },
   {
     id: 'whatwedo',
     label: 'What We Do',
     layer: 'fg',
-    // Pole sign on v2-fg (red WHAT WE DO letters) — higher on the board
-    ...circ(122, 335, 82),
+    // CLICK HERE above the pole banner
+    tag: 'above',
+    ...circ(185, 175, 82),
   },
   {
     id: 'contact',
     label: 'Contact Us',
     layer: 'fg',
-    ...circ(720, 410, 88),
+    // Label sits above the Contact Us building
+    tag: 'above',
+    ...circ(720, 228, 88),
   },
 ]
 
-/** About studio — 1024×576; four wall / workspace stops */
-const aboutSpots = [
-  { id: 'brand', label: 'About Hillfolk', cx: 175, cy: 165, r: 58 },
-  { id: 'studio', label: 'How we work', cx: 475, cy: 345, r: 72 },
-  { id: 'team', label: 'Our team', cx: 780, cy: 285, r: 56 },
-  { id: 'story', label: 'Our story', cx: 935, cy: 275, r: 48 },
+/** About people — hover profiles (viewBox 1024×576); no click panels */
+const aboutPeople = [
+  { id: 'moa', name: 'Moa', role: 'Strategy', cx: 175, cy: 390, r: 46, hue: 155 },
+  { id: 'tia', name: 'Tia', role: 'Design', cx: 310, cy: 305, r: 44, hue: 32 },
+  { id: 'coco', name: 'Coco', role: 'Content creation', cx: 350, cy: 365, r: 42, hue: 175 },
+  { id: 'reo', name: 'Reo', role: 'Art direction', cx: 430, cy: 365, r: 42, hue: 210 },
+  { id: 'nomo', name: 'Nomo', role: 'Film & motion', cx: 530, cy: 360, r: 42, hue: 280 },
+  { id: 'sharon', name: 'Sharon', role: 'Studio lead', cx: 900, cy: 360, r: 46, hue: 12 },
 ]
 
-/** What We Do poster — four lines on the hanging board (left) */
-/** What We Do poster lines — viewBox 1024×576; poster ~x 225–491 */
-const whatWeDoSpots = [
-  { id: 'brand', label: 'Brand & Design', cx: 358, cy: 216, r: 52 },
-  { id: 'digital', label: 'Digital & Video', cx: 358, cy: 268, r: 52 },
-  { id: 'visual', label: 'Visual Communication', cx: 358, cy: 322, r: 52 },
-  { id: 'story', label: 'Strategy & Storytelling', cx: 358, cy: 376, r: 52 },
-]
+/** No per-card room click-tags (home still has CLICK HERE) */
+const aboutSpots = []
+const whatWeDoSpots = []
+const contactSpots = []
 
-/** Services billboard — five cards on the conveyor; viewBox 1024×576 */
+/** Services sections — HOVER ME tips under each card */
 const servicesSpots = [
-  { id: 'strategy', label: 'Brand Strategy', cx: 300, cy: 350, r: 48, tag: 'below' },
-  { id: 'design', label: 'Digital Design', cx: 412, cy: 350, r: 48, tag: 'below' },
-  { id: 'story', label: 'Content & Storytelling', cx: 522, cy: 350, r: 48, tag: 'below' },
-  { id: 'campaign', label: 'Campaign Creative', cx: 628, cy: 350, r: 48, tag: 'below' },
-  { id: 'tech', label: 'Tech & Innovation', cx: 718, cy: 350, r: 48, tag: 'below' },
-]
-
-/** Contact — info board (left of door) + Connect guestbook (front right); viewBox 1024×576 */
-const contactSpots = [
-  { id: 'address', label: 'Contact info', cx: 280, cy: 240, r: 62 },
-  { id: 'connect', label: 'Connect with us', cx: 790, cy: 410, r: 72 },
+  { id: 'strategy', label: 'Brand Strategy' },
+  { id: 'design', label: 'Digital Design' },
+  { id: 'story', label: 'Content & Storytelling' },
+  { id: 'campaign', label: 'Campaign Creative' },
+  { id: 'tech', label: 'Tech & Innovation' },
 ]
 
 function ensureSpotDefs() {
   /* tags need no shared defs */
 }
 
-/** Vintage luggage / trail tag — eyelet + cord, not a UI pill */
+/** Label + dotted cord — no tag plate */
 function attachCircleSpot(g, spot, hitClass) {
   const ns = 'http://www.w3.org/2000/svg'
   const cx = spot.cx
   const cy = spot.cy
-  const fs = Math.max(7, Math.min(10, spot.r * 0.12))
-  const label = 'click here'
-  const h = fs * 1.7
-  const eye = h * 0.22
-  const body = label.length * fs * 0.48 + fs * 1.1
-  const notch = h * 0.38
-  const w = eye * 2.6 + body + notch
-  const below = spot.tag === 'below'
-  const x = cx - w * 0.42
-  const y = below
-    ? cy + spot.r * 0.55
-    : cy - spot.r * 0.5 - h - fs * 0.9
-  // Slight unique tilt so tags feel placed, not stamped
-  const tilt =
-    ((spot.id || '').split('').reduce((a, c) => a + c.charCodeAt(0), 0) % 9) - 4
-
-  const tag = document.createElementNS(ns, 'g')
-  tag.classList.add('spot-tag')
-  if (below) tag.classList.add('spot-tag--below')
-  tag.setAttribute('transform', `rotate(${tilt} ${cx} ${cy})`)
-
-  // Cord between eyelet and landmark
-  const cord = document.createElementNS(ns, 'path')
-  cord.classList.add('spot-tag__cord')
-  const eyeCx = x + eye * 1.35
-  const eyeCy = y + h / 2
-  if (below) {
-    cord.setAttribute(
-      'd',
-      `M ${eyeCx} ${eyeCy - eye * 0.85} Q ${eyeCx + fs * 0.15} ${cy + spot.r * 0.2}, ${cx} ${cy + spot.r * 0.12}`,
-    )
-  } else {
-    cord.setAttribute(
-      'd',
-      `M ${eyeCx} ${eyeCy + eye * 0.85} Q ${eyeCx + fs * 0.2} ${cy - spot.r * 0.15}, ${cx} ${cy - spot.r * 0.08}`,
-    )
-  }
-
-  // Luggage-tag silhouette: round eyelet end + pointed tip
-  const bg = document.createElementNS(ns, 'path')
-  bg.classList.add('spot-tag__bg')
-  const r = h / 2
-  const tipX = x + w
-  const midY = y + h / 2
-  bg.setAttribute(
-    'd',
-    [
-      `M ${x + r} ${y}`,
-      `L ${tipX - notch} ${y}`,
-      `L ${tipX} ${midY}`,
-      `L ${tipX - notch} ${y + h}`,
-      `L ${x + r} ${y + h}`,
-      `A ${r} ${r} 0 0 1 ${x + r} ${y}`,
-      'Z',
-    ].join(' '),
-  )
-
-  const hole = document.createElementNS(ns, 'circle')
-  hole.classList.add('spot-tag__hole')
-  hole.setAttribute('cx', String(eyeCx))
-  hole.setAttribute('cy', String(eyeCy))
-  hole.setAttribute('r', String(eye))
-
-  const stitch = document.createElementNS(ns, 'line')
-  stitch.classList.add('spot-tag__stitch')
-  stitch.setAttribute('x1', String(x + r * 1.85))
-  stitch.setAttribute('y1', String(y + h * 0.28))
-  stitch.setAttribute('x2', String(x + r * 1.85))
-  stitch.setAttribute('y2', String(y + h * 0.72))
-
-  const text = document.createElementNS(ns, 'text')
-  text.classList.add('spot-tag__text')
-  text.setAttribute('x', String(x + r * 2.15 + body * 0.42))
-  text.setAttribute('y', String(midY + fs * 0.05))
-  text.setAttribute('text-anchor', 'middle')
-  text.setAttribute('dominant-baseline', 'middle')
-  text.setAttribute('font-size', String(fs))
-  text.textContent = label
-
-  tag.appendChild(cord)
-  tag.appendChild(bg)
-  tag.appendChild(hole)
-  tag.appendChild(stitch)
-  tag.appendChild(text)
 
   const hit = document.createElementNS(ns, 'circle')
   hit.classList.add(hitClass)
@@ -300,6 +211,49 @@ function attachCircleSpot(g, spot, hitClass) {
   hit.setAttribute('r', String(spot.r))
   hit.setAttribute('tabindex', '0')
 
+  if (spot.hideTag) {
+    g.appendChild(hit)
+    return hit
+  }
+
+  const fs = Math.max(13, Math.min(17, spot.r * 0.22))
+  const label = 'CLICK HERE'
+  const below = spot.tag === 'below'
+  const textX = cx
+  const textY = below ? cy + spot.r * 0.85 + fs : cy - spot.r * 0.75 - fs * 0.35
+  const tilt =
+    ((spot.id || '').split('').reduce((a, c) => a + c.charCodeAt(0), 0) % 9) - 4
+
+  const tag = document.createElementNS(ns, 'g')
+  tag.classList.add('spot-tag')
+  if (below) tag.classList.add('spot-tag--below')
+  tag.setAttribute('transform', `rotate(${tilt} ${cx} ${cy})`)
+
+  const cord = document.createElementNS(ns, 'path')
+  cord.classList.add('spot-tag__cord')
+  if (below) {
+    cord.setAttribute(
+      'd',
+      `M ${textX} ${textY - fs * 0.55} Q ${cx + fs * 0.2} ${cy + spot.r * 0.35}, ${cx} ${cy + spot.r * 0.12}`,
+    )
+  } else {
+    cord.setAttribute(
+      'd',
+      `M ${textX} ${textY + fs * 0.45} Q ${cx + fs * 0.25} ${cy - spot.r * 0.25}, ${cx} ${cy - spot.r * 0.08}`,
+    )
+  }
+
+  const text = document.createElementNS(ns, 'text')
+  text.classList.add('spot-tag__text')
+  text.setAttribute('x', String(textX))
+  text.setAttribute('y', String(textY))
+  text.setAttribute('text-anchor', 'middle')
+  text.setAttribute('dominant-baseline', 'middle')
+  text.setAttribute('font-size', String(fs))
+  text.textContent = label
+
+  tag.appendChild(cord)
+  tag.appendChild(text)
   g.appendChild(tag)
   g.appendChild(hit)
   return hit
@@ -313,6 +267,7 @@ const world = document.getElementById('world')
 const hint = document.getElementById('hint')
 const toast = document.getElementById('toast')
 const topbar = document.querySelector('.topbar')
+const sky = document.getElementById('sky')
 const bg = document.getElementById('bg')
 const mid = document.getElementById('mid')
 const fg = document.getElementById('fg')
@@ -414,8 +369,101 @@ function buildHits() {
   })
 }
 
+function buildAboutPeople() {
+  const group = aboutHitGroup
+  const tip = document.getElementById('about-person-tip')
+  if (!group || !tip || !aboutRoom) return
+  const ns = 'http://www.w3.org/2000/svg'
+  const avatar = tip.querySelector('.person-tip__avatar')
+  const initialsEl = tip.querySelector('.person-tip__initials')
+  const nameEl = tip.querySelector('.person-tip__name')
+  const roleEl = tip.querySelector('.person-tip__role')
+  const plate = aboutRoom.querySelector('.about-plate')
+
+  const hideTip = () => {
+    tip.hidden = true
+    tip.setAttribute('aria-hidden', 'true')
+    tip.classList.remove('is-on')
+  }
+
+  const showTip = (person, hit) => {
+    const initials = person.name.slice(0, 1).toUpperCase()
+    if (initialsEl) initialsEl.textContent = initials
+    if (avatar) avatar.style.setProperty('--avatar-hue', String(person.hue ?? 20))
+    if (nameEl) nameEl.textContent = person.name
+    if (roleEl) roleEl.textContent = person.role
+    tip.hidden = false
+    tip.setAttribute('aria-hidden', 'false')
+    tip.classList.add('is-on')
+
+    const plateBox = plate?.getBoundingClientRect()
+    const hitBox = hit.getBoundingClientRect()
+    if (plateBox && hitBox.width) {
+      const left = ((hitBox.left + hitBox.width * 0.5 - plateBox.left) / plateBox.width) * 100
+      const top = ((hitBox.top - plateBox.top) / plateBox.height) * 100
+      tip.style.left = `${left}%`
+      tip.style.top = `${Math.max(8, top - 2)}%`
+    }
+  }
+
+  aboutPeople.forEach((person) => {
+    const g = document.createElementNS(ns, 'g')
+    g.classList.add('room-person')
+    g.dataset.id = person.id
+
+    const hit = document.createElementNS(ns, 'circle')
+    hit.classList.add('room-person__hit')
+    hit.setAttribute('cx', String(person.cx))
+    hit.setAttribute('cy', String(person.cy))
+    hit.setAttribute('r', String(person.r))
+    hit.setAttribute('tabindex', '0')
+    hit.setAttribute('role', 'img')
+    hit.setAttribute('aria-label', `${person.name}, ${person.role}`)
+
+    hit.addEventListener('pointerenter', () => showTip(person, hit))
+    hit.addEventListener('pointerleave', hideTip)
+    hit.addEventListener('focus', () => showTip(person, hit))
+    hit.addEventListener('blur', hideTip)
+
+    g.appendChild(hit)
+    group.appendChild(g)
+  })
+}
+
+function playWallReveal(roomEl, selector) {
+  const wall = roomEl?.querySelector(selector)
+  if (!wall || reduce) return
+  const bits = wall.querySelectorAll(
+    '.room-wall__eyebrow, .room-wall__title, .room-wall__body, .wall-lead',
+  )
+  if (!bits.length) return
+  gsap.killTweensOf([wall, bits])
+  gsap.set(wall, { autoAlpha: 1 })
+  gsap.fromTo(
+    bits,
+    { autoAlpha: 0, y: 18 },
+    {
+      autoAlpha: 1,
+      y: 0,
+      duration: 0.7,
+      stagger: 0.12,
+      ease: 'power2.out',
+      delay: 0.05,
+      force3D: true,
+    },
+  )
+}
+
+function playAboutWallIn() {
+  playWallReveal(aboutRoom, '.room-wall--about .room-wall__copy')
+}
+
+function playContactWallIn() {
+  playWallReveal(contactRoom, '.room-wall--contact .room-wall__copy')
+}
+
 function buildRoomHits(group, room, list, ui) {
-  if (!group) return
+  if (!group || !list?.length) return
   const ns = 'http://www.w3.org/2000/svg'
   const svg = group.ownerSVGElement || group.closest('svg')
   ensureSpotDefs(svg)
@@ -841,6 +889,13 @@ function enterRoom(roomEl, backBtn, spotId) {
     width: 0,
     height: 0,
   })
+  if (!reduce && (roomEl === aboutRoom || roomEl === contactRoom)) {
+    const sel =
+      roomEl === aboutRoom
+        ? '.room-wall--about .room-wall__eyebrow, .room-wall--about .room-wall__title, .room-wall--about .room-wall__body'
+        : '.room-wall--contact .room-wall__eyebrow, .room-wall--contact .room-wall__title, .room-wall--contact .wall-lead'
+    gsap.set(roomEl.querySelectorAll(sel), { autoAlpha: 0, y: 18 })
+  }
 
   void (async () => {
     await warmRoom(roomEl)
@@ -860,6 +915,8 @@ function enterRoom(roomEl, backBtn, spotId) {
           gsap.set(roomEl, { clearProps: 'scale,transformOrigin' })
           gsap.set(veil, { autoAlpha: 0, width: 0, height: 0 })
           if (!reduce && !narrowMq.matches) roomEl.classList.add('is-hinting')
+          if (roomEl === aboutRoom) playAboutWallIn()
+          if (roomEl === contactRoom) playContactWallIn()
           backBtn?.focus()
           syncTrailMode()
           if (narrowMq.matches && roomEl.querySelector('.room__hint')) {
@@ -1013,7 +1070,8 @@ function buildClouds() {
 }
 
 function buildAboutClouds() {
-  spawnCloudSprites(aboutCloudsEl, 'room__skycloud', reduce ? 2 : 4, aboutCloudSprites)
+  // Dense enough to read in the narrow right window pane
+  spawnCloudSprites(aboutCloudsEl, 'room__skycloud', reduce ? 3 : 7, aboutCloudSprites)
 }
 
 function buildWhatWeDoClouds() {
@@ -1021,7 +1079,7 @@ function buildWhatWeDoClouds() {
 }
 
 function buildServicesClouds() {
-  spawnCloudSprites(servicesCloudsEl, 'room__skycloud', reduce ? 2 : 4, servicesCloudSprites)
+  spawnCloudSprites(servicesCloudsEl, 'room__skycloud', reduce ? 4 : 10, servicesCloudSprites)
 }
 
 function buildContactClouds() {
@@ -1091,14 +1149,16 @@ function startMotion() {
     if (!panelOpen && !busy) {
       if (!reduce) tickClouds(dt)
 
-      px += (tx - px) * 0.055
-      py += (ty - py) * 0.055
+      // Soft follow — slow lerp, clear depth between layers
+      px += (tx - px) * 0.06
+      py += (ty - py) * 0.06
 
       if (!inside) {
-        if (clouds) clouds.style.transform = `translate3d(${px * -10}px, ${py * -3}px, 0)`
-        if (bg) bg.style.transform = `translate3d(${px * -4}px, calc(-28% + ${py * -2}px), 0) scale(1.12)`
-        if (mid) mid.style.transform = `translate3d(${px * -10}px, calc(4% + ${py * -4}px), 0) scale(0.88)`
-        if (fg) fg.style.transform = `translate3d(${px * -18}px, calc(-4% + ${py * -7}px), 0) scale(1.03)`
+        if (clouds) clouds.style.transform = `translate3d(${px * -22}px, ${py * -8}px, 0)`
+        if (sky) sky.style.transform = `translate3d(${px * -6}px, calc(0% + ${py * -3}px), 0) scale(1.06)`
+        if (bg) bg.style.transform = `translate3d(${px * -14}px, calc(-28% + ${py * -8}px), 0) scale(1.12)`
+        if (mid) mid.style.transform = `translate3d(${px * -28}px, calc(2% + ${py * -12}px), 0) scale(0.92)`
+        if (fg) fg.style.transform = `translate3d(${px * -46}px, calc(7% + ${py * -18}px), 0) scale(1.03)`
       } else if (openRoomEl) {
         applyRoomParallax(openRoomEl, px, py)
       }
@@ -1278,28 +1338,28 @@ const aboutPanelUi = bindPanel(
   document.getElementById('about-panel'),
   aboutHint,
   aboutSpots,
-  'Small tags mark places you can open',
+  'Hover a teammate to meet them',
 )
 const whatwedoPanelUi = bindPanel(
   whatwedoRoom,
   document.getElementById('whatwedo-panel'),
   whatwedoHint,
   whatWeDoSpots,
-  'Tags mark each line on the poster',
+  'Explore the poster',
 )
 const servicesPanelUi = bindPanel(
   servicesRoom,
   document.getElementById('services-panel'),
   servicesHint,
   servicesSpots,
-  'Tags mark each service card',
+  'Hover a service to peek inside',
 )
 const contactPanelUi = bindPanel(
   contactRoom,
   document.getElementById('contact-panel'),
   contactHint,
   contactSpots,
-  'Tags mark the board and the guestbook',
+  'Leave a note on the wall',
 )
 
 aboutBack.addEventListener('click', () => {
@@ -1336,21 +1396,115 @@ window.addEventListener('keydown', (e) => {
 })
 
 buildHits()
-buildRoomHits(aboutHitGroup, aboutRoom, aboutSpots, aboutPanelUi)
-buildRoomHits(whatwedoHitGroup, whatwedoRoom, whatWeDoSpots, whatwedoPanelUi)
-buildRoomHits(servicesHitGroup, servicesRoom, servicesSpots, servicesPanelUi)
-buildRoomHits(contactHitGroup, contactRoom, contactSpots, contactPanelUi)
+buildAboutPeople()
 buildTrailNav()
-buildRoomTrail(document.getElementById('about-trail'), aboutSpots, aboutPanelUi)
-buildRoomTrail(document.getElementById('whatwedo-trail'), whatWeDoSpots, whatwedoPanelUi)
 buildRoomTrail(document.getElementById('services-trail'), servicesSpots, servicesPanelUi)
-buildRoomTrail(document.getElementById('contact-trail'), contactSpots, contactPanelUi)
 buildClouds()
 buildAboutClouds()
 buildWhatWeDoClouds()
 buildServicesClouds()
 buildContactClouds()
 startParallaxInput()
+
+document.querySelectorAll('.services-hover').forEach((wrap) => {
+  const btn = wrap.querySelector('.services-click')
+  const tip = wrap.querySelector('.services-tip')
+  if (!btn || !tip) return
+
+  const show = () => {
+    if (busy || !inside || panelOpen) return
+    wrap.classList.add('is-hot')
+    tip.hidden = false
+    requestAnimationFrame(() => tip.classList.add('is-on'))
+    if (servicesHint) {
+      servicesHint.textContent =
+        tip.querySelector('.services-tip__label')?.textContent || servicesPanelUi.idleHint
+    }
+  }
+  const hide = () => {
+    wrap.classList.remove('is-hot')
+    tip.classList.remove('is-on')
+    window.setTimeout(() => {
+      if (!wrap.classList.contains('is-hot')) tip.hidden = true
+    }, 220)
+    if (servicesHint && !panelOpen) servicesHint.textContent = servicesPanelUi.idleHint
+  }
+
+  wrap.addEventListener('pointerenter', show)
+  wrap.addEventListener('pointerleave', hide)
+  btn.addEventListener('focus', show)
+  btn.addEventListener('blur', hide)
+  btn.addEventListener('click', (e) => {
+    e.preventDefault()
+  })
+})
+
+const contactWall = document.getElementById('contact-wall')
+const wallLeadBtn = document.getElementById('wall-lead-btn')
+const wallLeadForm = document.getElementById('wall-lead-form')
+const wallLeadClose = document.getElementById('wall-lead-close')
+const wallLeadNote = document.getElementById('wall-lead-note')
+const wallLeadCopy = contactWall?.querySelector('.room-wall__copy')
+let wallLeadTween = null
+
+if (contactWall) gsap.set(contactWall, { xPercent: -50 })
+
+function openWallLead() {
+  if (!wallLeadForm || !contactWall || !wallLeadCopy) return
+  if (contactWall.classList.contains('is-composing')) return
+  wallLeadTween?.kill()
+
+  gsap.set(wallLeadForm, { autoAlpha: 0, x: 36, force3D: true })
+  gsap.set(wallLeadCopy, { x: 0, force3D: true })
+  gsap.set(contactWall, { xPercent: -50, x: 0 })
+  if (wallLeadBtn) gsap.set(wallLeadBtn, { autoAlpha: 1 })
+
+  wallLeadForm.hidden = false
+  contactWall.classList.add('is-composing')
+
+  wallLeadTween = gsap
+    .timeline({
+      defaults: { ease: 'power2.inOut', force3D: true },
+      onComplete: () => wallLeadForm.querySelector('input')?.focus(),
+    })
+    .to(contactWall, { duration: 0.85, x: '-3.5vw' }, 0)
+    .to(wallLeadCopy, { duration: 0.85, x: '-7.25rem' }, 0)
+    .to(wallLeadBtn, { duration: 0.3, autoAlpha: 0, ease: 'power1.out' }, 0)
+    .to(wallLeadForm, { duration: 0.85, autoAlpha: 1, x: 0 }, 0.04)
+}
+
+function closeWallLead() {
+  if (!wallLeadForm || !contactWall || !wallLeadCopy) return
+  if (!contactWall.classList.contains('is-composing')) return
+  wallLeadTween?.kill()
+
+  wallLeadTween = gsap
+    .timeline({
+      defaults: { ease: 'power2.inOut', force3D: true },
+      onComplete: () => {
+        contactWall.classList.remove('is-composing')
+        wallLeadForm.hidden = true
+        gsap.set([wallLeadCopy, wallLeadForm, wallLeadBtn].filter(Boolean), {
+          clearProps: 'transform,opacity,visibility',
+        })
+        gsap.set(contactWall, { xPercent: -50, x: 0 })
+      },
+    })
+    .to(wallLeadForm, { duration: 0.55, autoAlpha: 0, x: 40 }, 0)
+    .to(wallLeadCopy, { duration: 0.75, x: 0 }, 0.04)
+    .to(contactWall, { duration: 0.75, x: 0 }, 0.04)
+    .to(wallLeadBtn, { duration: 0.4, autoAlpha: 1, ease: 'power1.out' }, 0.18)
+}
+
+wallLeadBtn?.addEventListener('click', openWallLead)
+wallLeadClose?.addEventListener('click', closeWallLead)
+wallLeadForm?.addEventListener('submit', (e) => {
+  e.preventDefault()
+  wallLeadForm.classList.add('is-sent')
+  if (wallLeadNote) wallLeadNote.hidden = false
+  const sendBtn = wallLeadForm.querySelector('.wall-lead-form__send')
+  if (sendBtn) sendBtn.textContent = 'Sent'
+})
 
 const onViewportModeChange = () => syncTrailMode()
 if (typeof narrowMq.addEventListener === 'function') {
